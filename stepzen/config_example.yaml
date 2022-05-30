@@ -1,0 +1,4 @@
+configurationset:
+  - configuration:
+      name: postgresql_config
+      uri: postgresql://db.erheghvizlymikdnyteb.supabase.co/postgres?user=postgres&password=비빌번호(특수문자는 인코딩값으로)
