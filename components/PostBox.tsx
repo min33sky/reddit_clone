@@ -16,6 +16,10 @@ type FormData = {
   subreddit: string;
 };
 
+/**
+ * 포스트 등록 컴포넌트
+ * @returns
+ */
 function PostBox() {
   const { data: session } = useSession();
   const [addPost] = useMutation(ADD_POST);
