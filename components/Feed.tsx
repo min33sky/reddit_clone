@@ -1,13 +1,17 @@
 import { useQuery } from '@apollo/client';
 import React from 'react';
-import { GET_ALL_POSTS } from '../graphql/query';
+import { GET_ALL_POSTS, GET_ALL_POSTS_BY_TOPIC } from '../graphql/query';
 import { Post as PostType } from '../types/reddit';
 import Post from './Post';
 
-function Feed() {
-  const { data, error, loading } = useQuery(GET_ALL_POSTS);
+function Feed({ topic }: { topic?: string }) {
+  const { data, error, loading } = useQuery(topic ? GET_ALL_POSTS_BY_TOPIC : GET_ALL_POSTS, {
+    variables: {
+      topic,
+    },
+  });
 
-  const posts: PostType[] = data?.getPostList;
+  const posts: PostType[] = topic ? data?.getPostListByTopic : data?.getPostList;
 
   if (loading)
     return (

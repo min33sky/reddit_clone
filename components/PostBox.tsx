@@ -20,9 +20,10 @@ type FormData = {
  * 포스트 등록 컴포넌트
  * @returns
  */
-function PostBox() {
+function PostBox({ subreddit }: { subreddit?: string }) {
   const { data: session } = useSession();
   const [addPost] = useMutation(ADD_POST, {
+    //? 게시물 등록 시 query name이 "getPostList"인 것을 다시 불러온다.
     refetchQueries: [GET_ALL_POSTS, 'getPostList'],
   });
   const [addSubreddit] = useMutation(ADD_SUBREDDIT);
@@ -48,21 +49,21 @@ function PostBox() {
       } = await client.query({
         query: GET_SUBREDDIT_BY_TOPIC,
         variables: {
-          topic: formData.subreddit,
+          topic: subreddit || formData.subreddit,
         },
       });
 
       const subredditExists = getSubredditListByTopic.length > 0;
 
+      //* create subreddit
       if (!subredditExists) {
-        // create subreddit
         console.log('Subreddit is new! -> creating a NEW subreddit!');
 
         const {
           data: { insertSubreddit: newSubreddit },
         } = await addSubreddit({
           variables: {
-            topic: formData.subreddit,
+            topic: subreddit || formData.subreddit,
           },
         });
 
@@ -83,7 +84,7 @@ function PostBox() {
 
         console.log('New post added: ', newPost);
       } else {
-        // use existing subreddit
+        //* use existing subreddit
 
         console.log('Using existing subreddit!');
         const image = formData.postImage || '';
@@ -130,7 +131,13 @@ function PostBox() {
           className="flex-1 rounded-md bg-gray-50 p-2 pl-5 outline-none"
           {...register('postTitle', { required: true })}
           disabled={!session}
-          placeholder={session ? 'Create a post by entering a title' : 'Sign in to post'}
+          placeholder={
+            session
+              ? subreddit
+                ? `Create a post in r/${subreddit}`
+                : 'Create a post by entering a title'
+              : 'Sign in to post'
+          }
         />
         <PhotographIcon
           onClick={() => setImageBoxOpen((prev) => !prev)}
@@ -156,15 +163,17 @@ function PostBox() {
         </div>
 
         {/* Subreddit */}
-        <div className="flex items-center px-2">
-          <p className="min-w-[90px]">Subreddit:</p>
-          <input
-            type="text"
-            className="m-2 flex-1 bg-blue-50 p-2 outline-none"
-            {...register('subreddit')}
-            placeholder="i.e. reactjs"
-          />
-        </div>
+        {!subreddit && (
+          <div className="flex items-center px-2">
+            <p className="min-w-[90px]">Subreddit:</p>
+            <input
+              type="text"
+              className="m-2 flex-1 bg-blue-50 p-2 outline-none"
+              {...register('subreddit')}
+              placeholder="i.e. reactjs"
+            />
+          </div>
+        )}
 
         {imageBoxOpen && (
           <div className="flex items-center px-2">
@@ -187,7 +196,7 @@ function PostBox() {
         </div>
       )}
 
-      {!!watch('subreddit') && (
+      {!!watch('postBody') && (
         <button type="submit" className="w-full rounded-full bg-blue-400 p-2 text-white">
           Create Post
         </button>

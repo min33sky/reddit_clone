@@ -14,6 +14,8 @@ import {
   VideoCameraIcon,
 } from '@heroicons/react/solid';
 import { signIn, signOut, useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 /**
  * 헤더
@@ -21,12 +23,19 @@ import { signIn, signOut, useSession } from 'next-auth/react';
  */
 function Header() {
   const { data: session } = useSession();
+  const router = useRouter();
 
   return (
-    <header className="sticky top-0 z-50 flex bg-white px-4 py-2 shadow-sm">
+    <header className="sticky top-0 z-50 flex items-center bg-white px-4 py-2 shadow-sm">
       {/* 로고 */}
       <div className="relative h-10 w-20 flex-shrink-0 cursor-pointer">
-        <Image src="https://links.papareact.com/fqy" alt="Logo" layout="fill" objectFit="contain" />
+        <Image
+          src="https://links.papareact.com/fqy"
+          onClick={() => router.push('/')}
+          alt="Logo"
+          layout="fill"
+          objectFit="contain"
+        />
       </div>
 
       {/* 메뉴 아이콘 */}

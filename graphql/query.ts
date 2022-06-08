@@ -6,9 +6,74 @@ export const GET_ALL_POSTS = gql`
       id
       body
       created_at
-      title
       subreddit_id
       title
+      image
+      username
+      subreddit {
+        id
+        topic
+        created_at
+      }
+      votes {
+        id
+        upvote
+        post_id
+        username
+        created_at
+      }
+      comments {
+        id
+        post_id
+        created_at
+        text
+        username
+      }
+    }
+  }
+`;
+
+export const GET_ALL_POSTS_BY_TOPIC = gql`
+  query MyQuery($topic: String!) {
+    getPostListByTopic(topic: $topic) {
+      id
+      body
+      created_at
+      subreddit_id
+      title
+      image
+      username
+      subreddit {
+        id
+        topic
+        created_at
+      }
+      votes {
+        id
+        upvote
+        post_id
+        username
+        created_at
+      }
+      comments {
+        id
+        post_id
+        created_at
+        text
+        username
+      }
+    }
+  }
+`;
+
+export const GET_POST_BY_POST_ID = gql`
+  query MyQuery($post_id: ID!) {
+    getPostByPostId(post_id: $post_id) {
+      id
+      body
+      created_at
+      title
+      subreddit_id
       image
       username
       subreddit {
