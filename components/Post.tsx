@@ -41,7 +41,7 @@ function Post({ post }: { post: Post }) {
             <span className="font-bold text-black hover:text-blue-400 hover:underline">
               r/{post.subreddit[0].topic}
             </span>
-            ㆍPosted by u/{post.username}
+            ㆍPosted by u/{post.username}&nbsp;
             <TimeAgo date={post.created_at} formatter={formatter} />
           </p>
         </div>

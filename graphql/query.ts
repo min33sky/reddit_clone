@@ -10,6 +10,7 @@ export const GET_ALL_POSTS = gql`
       subreddit_id
       title
       image
+      username
       subreddit {
         id
         topic
