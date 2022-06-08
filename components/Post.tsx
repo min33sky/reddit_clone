@@ -14,11 +14,17 @@ import koreanStrings from 'react-timeago/lib/language-strings/ko';
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
 import { ShareIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
+import { Jelly } from '@uiball/loaders';
 
 const formatter = buildFormatter(koreanStrings);
 
 function Post({ post }: { post: Post }) {
-  if (!post) return <div>Loading...</div>;
+  if (!post)
+    return (
+      <div className="flex w-full items-center justify-center p-10 text-left">
+        <Jelly size={50} color="#FF4501" />
+      </div>
+    );
 
   return (
     <Link href={`/post/${post.id}`}>
@@ -41,13 +47,11 @@ function Post({ post }: { post: Post }) {
             <Avatar seed={post.subreddit[0].topic} />
             <p className="text-xs text-gray-400">
               <Link href={`/subreddit/${post.subreddit[0].topic}`}>
-                <>
-                  <span className="font-bold text-black hover:text-blue-400 hover:underline">
-                    r/{post.subreddit[0].topic}
-                  </span>
-                  ㆍPosted by u/{post.username}&nbsp;
-                </>
+                <span className="font-bold text-black hover:text-blue-400 hover:underline">
+                  r/{post.subreddit[0].topic}
+                </span>
               </Link>
+              ㆍPosted by u/{post.username}&nbsp;
               <TimeAgo date={post.created_at} formatter={formatter} />
             </p>
           </div>

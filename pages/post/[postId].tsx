@@ -19,7 +19,7 @@ function PostDetail() {
   const post: PostType = data?.getPostByPostId;
 
   return (
-    <div>
+    <div className="mx-auto my-7 max-w-5xl">
       <Post post={post} />
     </div>
   );
