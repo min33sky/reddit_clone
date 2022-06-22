@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 import {
   BellIcon,
   ChatIcon,
@@ -15,7 +15,7 @@ import {
 } from '@heroicons/react/solid';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
+import useOutsideClick from '../hooks/useOutsideClick';
 
 /**
  * 헤더
@@ -24,6 +24,8 @@ import Link from 'next/link';
 function Header() {
   const { data: session } = useSession();
   const router = useRouter();
+  const [isOpened, setIsOpened] = useState(false);
+  const ref = useOutsideClick(() => setIsOpened(false));
 
   return (
     <header className="sticky top-0 z-50 flex items-center bg-white px-4 py-2 shadow-sm">
@@ -69,8 +71,62 @@ function Header() {
         <PlusIcon className="icon" />
         <SpeakerphoneIcon className="icon" />
       </div>
-      <div className="ml-5 flex items-center lg:hidden">
-        <MenuIcon className="icon" />
+
+      {/* 햄버거 메뉴 */}
+      <div ref={ref} className="relative ml-5 flex items-center lg:hidden">
+        <MenuIcon
+          role="button"
+          onClick={() => setIsOpened((prev) => !prev)}
+          className="icon"
+        />
+        <ul
+          className={`absolute top-10 right-0 z-50 w-48 cursor-pointer divide-y overflow-hidden bg-white text-center transition-all duration-500 ease-in-out ${
+            isOpened ? 'max-h-60' : 'max-h-0'
+          }`}
+        >
+          <li>
+            {session ? (
+              <div
+                onClick={() => signOut()}
+                className="flex cursor-pointer items-center space-x-2 border border-gray-100 p-2"
+              >
+                <div className="relative h-5 w-5 flex-shrink-0">
+                  <Image
+                    src="https://links.papareact.com/23l"
+                    layout="fill"
+                    objectFit="contain"
+                    alt="Auth Icon"
+                  />
+                </div>
+
+                <div className="flex-1 text-xs">
+                  <p className="truncate">{session.user?.name}</p>
+                  <p className="text-gray-400">1 Karma</p>
+                </div>
+
+                <ChevronDownIcon className="h-5 flex-shrink-0 text-gray-400" />
+              </div>
+            ) : (
+              <div
+                onClick={() => signIn()}
+                className="flex cursor-pointer items-center space-x-2 border border-gray-100 p-2"
+              >
+                <div className="relative h-5 w-5 flex-shrink-0">
+                  <Image
+                    src="https://links.papareact.com/23l"
+                    layout="fill"
+                    objectFit="contain"
+                    alt="Auth Icon"
+                  />
+                </div>
+                <p className="text-gray-400">Sign In</p>
+              </div>
+            )}
+          </li>
+          <li>메뉴 아이템 1</li>
+          <li>메뉴 아이템 2</li>
+          <li>메뉴 아이템 3</li>
+        </ul>
       </div>
 
       {/* 로그인, 롤그아웃 버튼 */}

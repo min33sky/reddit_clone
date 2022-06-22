@@ -122,7 +122,7 @@ function PostBox({ subreddit }: { subreddit?: string }) {
   return (
     <form
       onSubmit={onSubmit}
-      className="sticky top-16 z-50 rounded-md border border-gray-300 bg-white p-2"
+      className="sticky top-16 z-10 rounded-md border border-gray-300 bg-white p-2"
     >
       <div className="flex items-center space-x-3">
         <Avatar />
@@ -141,7 +141,9 @@ function PostBox({ subreddit }: { subreddit?: string }) {
         />
         <PhotographIcon
           onClick={() => setImageBoxOpen((prev) => !prev)}
-          className={`z-50 h-6 cursor-pointer text-gray-300 ${imageBoxOpen && 'text-blue-300'} `}
+          className={`z-50 h-6 cursor-pointer text-gray-300 ${
+            imageBoxOpen && 'text-blue-300'
+          } `}
         />
         <LinkIcon className="h-6 text-gray-300" />
       </div>
@@ -191,13 +193,20 @@ function PostBox({ subreddit }: { subreddit?: string }) {
       {/* Error */}
       {Object.keys(errors).length > 0 && (
         <div className="space-y-2 p-2 text-red-500">
-          {errors.postTitle?.type === 'required' && <p>- APost Title is required</p>}
-          {errors.subreddit?.type === 'required' && <p>- A Subreddit is required</p>}
+          {errors.postTitle?.type === 'required' && (
+            <p>- APost Title is required</p>
+          )}
+          {errors.subreddit?.type === 'required' && (
+            <p>- A Subreddit is required</p>
+          )}
         </div>
       )}
 
       {!!watch('postBody') && (
-        <button type="submit" className="w-full rounded-full bg-blue-400 p-2 text-white">
+        <button
+          type="submit"
+          className="w-full rounded-full bg-blue-400 p-2 text-white"
+        >
           Create Post
         </button>
       )}
