@@ -6,13 +6,18 @@ import Post from './Post';
 import { Jelly } from '@uiball/loaders';
 
 function Feed({ topic }: { topic?: string }) {
-  const { data, error, loading } = useQuery(topic ? GET_ALL_POSTS_BY_TOPIC : GET_ALL_POSTS, {
-    variables: {
-      topic,
-    },
-  });
+  const { data, error, loading } = useQuery(
+    topic ? GET_ALL_POSTS_BY_TOPIC : GET_ALL_POSTS,
+    {
+      variables: {
+        topic,
+      },
+    }
+  );
 
-  const posts: PostType[] = topic ? data?.getPostListByTopic : data?.getPostList;
+  const posts: PostType[] = topic
+    ? data?.getPostListByTopic
+    : data?.getPostList;
 
   if (loading)
     return (
@@ -22,7 +27,7 @@ function Feed({ topic }: { topic?: string }) {
     );
 
   return (
-    <ul className="mt-5 space-y-4">
+    <ul className="mt-5 w-full space-y-4">
       {posts?.map((post) => (
         <Post key={post.id} post={post} />
       ))}

@@ -29,8 +29,8 @@ function Post({ post }: { post: Post }) {
   return (
     <Link href={`/post/${post.id}`}>
       <li
-        className="flex cursor-pointer rounded-md border
-              border-gray-300 bg-white shadow-sm
+        className="flex cursor-pointer rounded-md
+              border border-gray-300 bg-white shadow-sm
                 hover:border hover:border-gray-600"
       >
         {/* Vote */}
@@ -63,7 +63,14 @@ function Post({ post }: { post: Post }) {
           </div>
 
           {/* image */}
-          {post.image && <img className="w-full" src={post.image} alt="body image" />}
+          {post.image && (
+            <div
+              className="h-[300px] w-full bg-contain bg-center bg-no-repeat"
+              style={{
+                backgroundImage: `url(${post.image})`,
+              }}
+            />
+          )}
 
           {/* footer */}
           <div className="flex space-x-4 text-gray-400">
