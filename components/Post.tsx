@@ -74,8 +74,6 @@ function Post({ post }: { post: Post }) {
       (vote) => vote.username === session?.user?.name
     )?.upvote;
 
-    console.log('second: ', votes);
-
     setVote(vote);
 
     const displayNumber = votes?.reduce(
@@ -90,8 +88,6 @@ function Post({ post }: { post: Post }) {
     } else {
       setCount(displayNumber);
     }
-
-    console.log('first:', votes, displayNumber);
   }, [data, session?.user?.name]);
 
   if (!post)
