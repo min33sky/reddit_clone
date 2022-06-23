@@ -24,6 +24,8 @@ import useOutsideClick from '../hooks/useOutsideClick';
 function Header() {
   const { data: session } = useSession();
   const router = useRouter();
+
+  //? 모바일 메뉴 제어 관련
   const [isOpened, setIsOpened] = useState(false);
   const ref = useOutsideClick(() => setIsOpened(false));
 
@@ -72,7 +74,7 @@ function Header() {
         <SpeakerphoneIcon className="icon" />
       </div>
 
-      {/* 햄버거 메뉴 */}
+      {/* 햄버거 메뉴 (모바일) */}
       <div ref={ref} className="relative ml-5 flex items-center lg:hidden">
         <MenuIcon
           role="button"
@@ -129,7 +131,7 @@ function Header() {
         </ul>
       </div>
 
-      {/* 로그인, 롤그아웃 버튼 */}
+      {/* 로그인, 로그아웃 버튼 (일반 화면) */}
       {session ? (
         <div
           onClick={() => signOut()}
